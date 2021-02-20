@@ -12,5 +12,5 @@ Below shows how we connect from `DC01` to `WS01` and execute two processes `host
 
 ## References
 
-{% embed url="https://bohops.com/2020/05/12/ws-management-com-another-approach-for-winrm-lateral-movement/amp/" %}
+{% embed url="https://bohops.com/2020/05/12/ws-management-com-another-approach-for-winrm-lateral-movement/amp/" caption="" %}
 

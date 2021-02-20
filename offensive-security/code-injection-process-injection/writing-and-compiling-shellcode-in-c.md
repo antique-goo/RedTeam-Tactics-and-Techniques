@@ -344,7 +344,7 @@ Remove or comment out `PDATA` and `XDATA` segments as shown below:
 
 #### 3.4 Fix Syntax Issues
 
-We need to change line `mov rax, QWORD PTR gs:96` to `mov rax, QWORD PTR gs:[96]`: 
+We need to change line `mov rax, QWORD PTR gs:96` to `mov rax, QWORD PTR gs:[96]`:
 
 ![](../../.gitbook/assets/image%20%28713%29.png)
 
@@ -372,7 +372,7 @@ Let's copy out the shellcode from the `.text` section, which in our case starts 
 
 ![](../../.gitbook/assets/image%20%28612%29.png)
 
-If you are wondering how we found the shellcode location, look at the `.text` section - you can extract  if from there too:
+If you are wondering how we found the shellcode location, look at the `.text` section - you can extract if from there too:
 
 ![](../../.gitbook/assets/image%20%28662%29.png)
 

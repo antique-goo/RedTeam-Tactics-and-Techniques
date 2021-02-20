@@ -117,7 +117,7 @@ At this point, our `EvilSvc` should be created with all the right parameters as 
 
 ### 4. Group EvilSvc with DcomLaunch
 
-As a final step, we need to tell the Service Control Manager under which service group our `EvilSvc`should load. 
+As a final step, we need to tell the Service Control Manager under which service group our `EvilSvc`should load.
 
 We want it to get loaded in the `DcomLaunch` group, so we need to add our service name `EvilSvc` in the list of services in the `DcomLaunch` value in `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost`:
 
@@ -146,5 +146,5 @@ Below are some initial thoughts on how one could start hunting for this techniqu
 
 ## References
 
-{% embed url="https://docs.microsoft.com/en-us/windows/win32/services/writing-a-servicemain-function" %}
+{% embed url="https://docs.microsoft.com/en-us/windows/win32/services/writing-a-servicemain-function" caption="" %}
 

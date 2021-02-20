@@ -81,15 +81,20 @@ Below is a simplified visual example attempting to further explaine the above pr
 
 {% hint style="warning" %}
 **False Positives**  
-Although highly effective at detecting functions hooked with inline patching, this method returns a few false positives when enumerating hooked functions inside ntdll.dll, such as:  
-  
-`NtGetTickCount  
-NtQuerySystemTime  
-NtdllDefWindowProc_A  
-NtdllDefWindowProc_W  
-NtdllDialogWndProc_A  
-NtdllDialogWndProc_W  
-ZwQuerySystemTime`
+Although highly effective at detecting functions hooked with inline patching, this method returns a few false positives when enumerating hooked functions inside ntdll.dll, such as:
+
+\`NtGetTickCount
+
+NtQuerySystemTime
+
+NtdllDefWindowProc\_A
+
+NtdllDefWindowProc\_W
+
+NtdllDialogWndProc\_A
+
+NtdllDialogWndProc\_W  
+ZwQuerySystemTime\`
 
 The above functions are not hooked.
 {% endhint %}
@@ -104,50 +109,50 @@ Below is the code that we can compile and run on an endpoint running an AV/EDR t
 
 int main()
 {
-	PDWORD functionAddress = (PDWORD)0;
-	
-	// Get ntdll base address
-	HMODULE libraryBase = LoadLibraryA("ntdll");
+    PDWORD functionAddress = (PDWORD)0;
 
-	PIMAGE_DOS_HEADER dosHeader = (PIMAGE_DOS_HEADER)libraryBase;
-	PIMAGE_NT_HEADERS imageNTHeaders = (PIMAGE_NT_HEADERS)((DWORD_PTR)libraryBase + dosHeader->e_lfanew);
+    // Get ntdll base address
+    HMODULE libraryBase = LoadLibraryA("ntdll");
 
-	// Locate export address table
-	DWORD_PTR exportDirectoryRVA = imageNTHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
-	PIMAGE_EXPORT_DIRECTORY imageExportDirectory = (PIMAGE_EXPORT_DIRECTORY)((DWORD_PTR)libraryBase + exportDirectoryRVA);
+    PIMAGE_DOS_HEADER dosHeader = (PIMAGE_DOS_HEADER)libraryBase;
+    PIMAGE_NT_HEADERS imageNTHeaders = (PIMAGE_NT_HEADERS)((DWORD_PTR)libraryBase + dosHeader->e_lfanew);
 
-	// Offsets to list of exported functions and their names
-	PDWORD addresOfFunctionsRVA = (PDWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfFunctions);
-	PDWORD addressOfNamesRVA = (PDWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfNames);
-	PWORD addressOfNameOrdinalsRVA = (PWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfNameOrdinals);
+    // Locate export address table
+    DWORD_PTR exportDirectoryRVA = imageNTHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+    PIMAGE_EXPORT_DIRECTORY imageExportDirectory = (PIMAGE_EXPORT_DIRECTORY)((DWORD_PTR)libraryBase + exportDirectoryRVA);
 
-	// Iterate through exported functions of ntdll
-	for (DWORD i = 0; i < imageExportDirectory->NumberOfNames; i++)
-	{
-		// Resolve exported function name
-		DWORD functionNameRVA = addressOfNamesRVA[i];
-		DWORD_PTR functionNameVA = (DWORD_PTR)libraryBase + functionNameRVA;
-		char* functionName = (char*)functionNameVA;
-		
-		// Resolve exported function address
-		DWORD_PTR functionAddressRVA = 0;
-		functionAddressRVA = addresOfFunctionsRVA[addressOfNameOrdinalsRVA[i]];
-		functionAddress = (PDWORD)((DWORD_PTR)libraryBase + functionAddressRVA);
+    // Offsets to list of exported functions and their names
+    PDWORD addresOfFunctionsRVA = (PDWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfFunctions);
+    PDWORD addressOfNamesRVA = (PDWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfNames);
+    PWORD addressOfNameOrdinalsRVA = (PWORD)((DWORD_PTR)libraryBase + imageExportDirectory->AddressOfNameOrdinals);
 
-		// Syscall stubs start with these bytes
-		char syscallPrologue[4] = { 0x4c, 0x8b, 0xd1, 0xb8 };
+    // Iterate through exported functions of ntdll
+    for (DWORD i = 0; i < imageExportDirectory->NumberOfNames; i++)
+    {
+        // Resolve exported function name
+        DWORD functionNameRVA = addressOfNamesRVA[i];
+        DWORD_PTR functionNameVA = (DWORD_PTR)libraryBase + functionNameRVA;
+        char* functionName = (char*)functionNameVA;
 
-		// Only interested in Nt|Zw functions
-		if (strncmp(functionName, (char*)"Nt", 2) == 0 || strncmp(functionName, (char*)"Zw", 2) == 0)
-		{
-			// Check if the first 4 instructions of the exported function are the same as the sycall's prologue
-			if (memcmp(functionAddress, syscallPrologue, 4) != 0) {
-				printf("Potentially hooked: %s : %p\n", functionName, functionAddress);
-			}
-		}
-	}
+        // Resolve exported function address
+        DWORD_PTR functionAddressRVA = 0;
+        functionAddressRVA = addresOfFunctionsRVA[addressOfNameOrdinalsRVA[i]];
+        functionAddress = (PDWORD)((DWORD_PTR)libraryBase + functionAddressRVA);
 
-	return 0;
+        // Syscall stubs start with these bytes
+        char syscallPrologue[4] = { 0x4c, 0x8b, 0xd1, 0xb8 };
+
+        // Only interested in Nt|Zw functions
+        if (strncmp(functionName, (char*)"Nt", 2) == 0 || strncmp(functionName, (char*)"Zw", 2) == 0)
+        {
+            // Check if the first 4 instructions of the exported function are the same as the sycall's prologue
+            if (memcmp(functionAddress, syscallPrologue, 4) != 0) {
+                printf("Potentially hooked: %s : %p\n", functionName, functionAddress);
+            }
+        }
+    }
+
+    return 0;
 }
 ```
 
@@ -163,7 +168,7 @@ After I've posted this note on my twitter, I got the following reply from Derek 
 
 ![](../../.gitbook/assets/image%20%28559%29.png)
 
-Derek is suggesting to check if the `syscall` instruction itself is not hooked. The `syscall` handler routine \(responsible for locating functions in the [SSDT](../../miscellaneous-reversing-forensics/windows-kernel-internals/glimpse-into-ssdt-in-windows-x64-kernel.md) based on a syscall number\) location can be found by reading the Model Specific Register \(MSR\) at location `0xc0000082` and confirming that the address stored there points to `nt!KiSystemCall64Shadow`. 
+Derek is suggesting to check if the `syscall` instruction itself is not hooked. The `syscall` handler routine \(responsible for locating functions in the [SSDT](../../miscellaneous-reversing-forensics/windows-kernel-internals/glimpse-into-ssdt-in-windows-x64-kernel.md) based on a syscall number\) location can be found by reading the Model Specific Register \(MSR\) at location `0xc0000082` and confirming that the address stored there points to `nt!KiSystemCall64Shadow`.
 
 Below shows how this could be done manually in WinBDG:
 
@@ -181,7 +186,7 @@ fffff803`24a13183 654889242510900000 mov   qword ptr gs:[9010h],rsp
 
 ## References
 
-{% embed url="https://posts.specterops.io/adventures-in-dynamic-evasion-1fe0bac57aa" %}
+{% embed url="https://posts.specterops.io/adventures-in-dynamic-evasion-1fe0bac57aa" caption="" %}
 
-{% embed url="https://rayanfam.com/topics/hypervisor-from-scratch-part-8/" %}
+{% embed url="https://rayanfam.com/topics/hypervisor-from-scratch-part-8/" caption="" %}
 

@@ -5,7 +5,7 @@ This is a living document that captures notes related to anything and all neo4j 
 ## List Databases
 
 ```text
-show databases 
+show databases
 ```
 
 ![](../.gitbook/assets/image%20%28720%29.png)

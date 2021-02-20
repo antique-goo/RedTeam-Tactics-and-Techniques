@@ -18,5 +18,5 @@ The below are some potential IOCs for detecting this technique:
 
 ## References
 
-{% embed url="https://superuser.com/questions/364290/how-to-dump-the-windows-sam-file-while-the-system-is-running" %}
+{% embed url="https://superuser.com/questions/364290/how-to-dump-the-windows-sam-file-while-the-system-is-running" caption="" %}
 

@@ -140,11 +140,11 @@ frida -p (ps explorer).id -l C:\labs\frida\hello-world\credentials.js
 
 ![](../../.gitbook/assets/image%20%28670%29.png)
 
-With `CredUnPackAuthenticationBufferW`  instrumented, entering credentials in the prompt launched by explorer.exe, gives us the expected result - the credentials are seen in plaintext:
+With `CredUnPackAuthenticationBufferW` instrumented, entering credentials in the prompt launched by explorer.exe, gives us the expected result - the credentials are seen in plaintext:
 
 ![](../../.gitbook/assets/credential-popup-capture-credentials.gif)
 
 ## Resources
 
-{% embed url="https://frida.re/docs/javascript-api/\#memory" %}
+{% embed url="https://frida.re/docs/javascript-api/\#memory" caption="" %}
 

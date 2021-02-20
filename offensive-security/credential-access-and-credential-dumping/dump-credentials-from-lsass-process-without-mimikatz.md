@@ -65,5 +65,5 @@ processdump.exe (ps lsass).id c:\temp\lsass.dmp
 
 ## References
 
-{% embed url="https://t.co/s2VePo3ICo?amp=1" %}
+{% embed url="https://t.co/s2VePo3ICo?amp=1" caption="" %}
 

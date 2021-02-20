@@ -20,7 +20,7 @@ There may be better processes with missing DLLs to target, for example, those th
 
 ## 2. Create Payload DLL
 
-Now, you need to create a DLL that contains your payload - i.e. Cobalt Strike beacon. This is the DLL you will plant on the target system in `c:\windows\system32\sharedres.dll`, because it's missing and svchost.exe is trying to load it. 
+Now, you need to create a DLL that contains your payload - i.e. Cobalt Strike beacon. This is the DLL you will plant on the target system in `c:\windows\system32\sharedres.dll`, because it's missing and svchost.exe is trying to load it.
 
 In this situation, it is strongly advised to ensure that your malicious DLL to not only executes your payload, but also exports the same functions the DLL you are hijacking exports, so find the real DLL on your system or on the internet to check what exports it contains and make sure your DLL has those exports. Afteral, the process that will load your DLL is loading it for a reason - it will want to use some functions that that DLL and will crash if it does not find them.
 
@@ -48,5 +48,5 @@ For detection ideas, check out the link in the references.
 
 ## References
 
-{% embed url="https://www.mdsec.co.uk/2020/10/i-live-to-move-it-windows-lateral-movement-part-3-dll-hijacking/" %}
+{% embed url="https://www.mdsec.co.uk/2020/10/i-live-to-move-it-windows-lateral-movement-part-3-dll-hijacking/" caption="" %}
 

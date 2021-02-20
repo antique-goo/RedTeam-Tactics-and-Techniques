@@ -104,7 +104,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
                        LPVOID lpReserved
                      )
 {
-    
+
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
@@ -138,7 +138,7 @@ rundll32 malicious.dll,whatever
 
 ### DLL Proxying / Hijacking
 
-We now have all the required pieces to test the dll proxying concept. 
+We now have all the required pieces to test the dll proxying concept.
 
 Let's move the `malicious.dll` to `c:\temp`, where `legit.dll` resides:
 

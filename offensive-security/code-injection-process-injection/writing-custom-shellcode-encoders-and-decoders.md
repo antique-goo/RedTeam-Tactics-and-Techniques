@@ -106,16 +106,16 @@ section .text
     decoderStub:
         cmp rcx, rdx            ; check if we've iterated and decoded all the encoded bytes
         je encodedShellcode     ; jump to the encodedShellcode, which actually now contains the decoded shellcode
-        
+
         ; encodedShellcode bytes are being decoded here per our decoding scheme
         xor byte [rax], 0x11    ; 1. xor byte with 0x11
         dec byte [rax]          ; 2. decremenet byte by 1
         xor byte [rax], 0x55    ; 3. xor byte with 0x55
-        
+
         inc rax                 ; point rax to the next encoded byte in encodedShellcode
         inc rcx                 ; increase loop counter
         jmp short decoderStub   ; repeat decoding procedure
-            
+
     shellcode:
         call decoder            ; jump to decoder label. This pushes the address of encodedShellcode to the stack (to be popped into rax as the first instruction under the decoder label)
         encodedShellcode: db 0x2a,0x39,0x2c,0x22,0x2c,0x2d,0x24,0x2b,0x67,0x36,0x2f,0x20,0x2b,0x2b,0x26,0x2a,0x23,0x20
@@ -153,7 +153,7 @@ Let's switch to the Hex Editor and we can copy \(right click on the selected byt
 Now that we've extracted our decoder's \(that includes our encoded shellcode\) op-codes, let's check if we can make them execute and see our encoded shellcode get decoded and launched.
 
 {% hint style="warning" %}
-**Reminder**   
+**Reminder**  
 Our decoded shellcode will not execute as it's simply an ascii string `original shellcode`, but it would if it was actual executable code.
 {% endhint %}
 

@@ -1,6 +1,6 @@
 # Windows Event IDs and Others for Situational Awareness
 
-Below is a living list of Windows event IDs and other miscellaenous snippets, that may be useful for  situational awareness, once you are on a box:
+Below is a living list of Windows event IDs and other miscellaenous snippets, that may be useful for situational awareness, once you are on a box:
 
 <table>
   <thead>
@@ -125,12 +125,8 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
       <td style="text-align:left">
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-TerminalServices-LocalSessionManager/Operational&apos;;
           id=&apos;21&apos; } | select timecreated, message | ft -AutoSize -Wrap</p>
-        <p></p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-RemoteDesktopServices-RdpCoreTS/Operational&apos;;
           id=131 } | select timecreated, message | ft -AutoSize -Wrap
-          <br />
-        </p>
-        <p>
           <br />
         </p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational&apos;;
@@ -142,7 +138,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
       <td style="text-align:left">
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-WinRM/Operational&apos;;
           id=6 }</p>
-        <p></p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-WinRM/Operational&apos;;
           id=80 }</p>
       </td>
@@ -152,7 +147,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
       <td style="text-align:left">
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-WinRM/Operational&apos;;
           id=91 }</p>
-        <p></p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Microsoft-Windows-WMI-Activity/Operational&apos;;
           id=5857 } | ? {$_.message -match &apos;Win32_WIN32_TERMINALSERVICE_Prov|CIMWin32&apos;}</p>
       </td>
@@ -161,7 +155,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
       <td style="text-align:left">Inbound Network and Interactive Logons</td>
       <td style="text-align:left">
         <p>$events = New-Object System.Collections.ArrayList</p>
-        <p></p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Security&apos;; id=(4624);
           starttime=(get-date).AddMinutes(-60*24*2) } | % {</p>
         <p>$event = New-Object psobject</p>
@@ -187,7 +180,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
         <p>$events.Add($event) | out-null</p>
         <p>}</p>
         <p>}</p>
-        <p></p>
         <p>$events</p>
       </td>
     </tr>
@@ -195,9 +187,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
       <td style="text-align:left">Outbound Network Logons</td>
       <td style="text-align:left">
         <p>$events = New-Object System.Collections.ArrayList
-          <br />
-        </p>
-        <p>
           <br />
         </p>
         <p>Get-WinEvent -FilterHashtable @{ LogName=&apos;Security&apos;; id=(4648);
@@ -221,9 +210,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
         <p>$process = $_.Properties[11].Value
           <br />
         </p>
-        <p>
-          <br />
-        </p>
         <p>$event | Add-Member &quot;Time&quot; $_.timecreated
           <br />
         </p>
@@ -239,9 +225,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
         <p>$event | Add-Member &quot;Process&quot; $process
           <br />
         </p>
-        <p>
-          <br />
-        </p>
         <p>if ($targetInfo -notmatch &apos;localhost&apos;)
           <br />
         </p>
@@ -255,9 +238,6 @@ Below is a living list of Windows event IDs and other miscellaenous snippets, th
           <br />
         </p>
         <p>}
-          <br />
-        </p>
-        <p>
           <br />
         </p>
         <p>$events</p>

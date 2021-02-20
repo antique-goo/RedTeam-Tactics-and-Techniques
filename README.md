@@ -4,9 +4,11 @@ description: What this is all about.
 
 # What is this iRed.team?
 
+
+
 {% hint style="danger" %}
 **Warning**  
-Cloning [ired.team](https://ired.team) GitBook and presenting it as your own is illegal and strictly forbidden! 
+Cloning [ired.team](https://ired.team) GitBook and presenting it as your own is illegal and strictly forbidden!
 {% endhint %}
 
 This is publicly accessible personal notes at [https://ired.team](https://ired.team) and [https://github.com/mantvydasb/RedTeam-Tactics-and-Techniques](https://github.com/mantvydasb/RedTeam-Tactics-and-Techniques) about my pentesting / red teaming experiments in a controlled environment that involve playing with various tools and techniques used by penetration testers, red teams and actual adversaries.
@@ -40,7 +42,5 @@ The goal of this project is simple - read other researchers work, execute some c
 
 Follow me on twitter:
 
-{% embed url="https://twitter.com/spotheplanet" %}
-
-
+{% embed url="https://twitter.com/spotheplanet" caption="" %}
 
